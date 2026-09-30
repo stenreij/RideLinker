@@ -1,0 +1,60 @@
+<div class="container pb-4">
+  <div class="row m-5 no-gutters shadow-lg">
+    <div class="col-md-6 d-none d-md-block p-0">
+      <img alt="nice burgir" [src]="ride?.car?.image" class="img-fluid add-image"
+        style="min-width: 100%; max-height: 100%" />
+    </div>
+    <div class="col-md-6 bg-white pt-4 ps-4">
+      <h3>
+        <strong>{{ ride?.departure?.name }} </strong>
+        <i-bs name="arrow-right" width="30" height="30"></i-bs>
+        <strong> {{ ride?.destination?.name }}</strong>
+      </h3>
+      <h5>Vervoer</h5>
+      <p>
+        <i-bs name="car-front" width="20" height="20" style="padding-right: 0.5vh"></i-bs>
+        {{ ride?.car?.brand }} {{ ride?.car?.model }}
+      </p>
+      <p>
+        <i-bs name="person" width="20" height="20" style="padding-right: 0.5vh"></i-bs>
+        {{ ride?.driver?.name }}
+      </p>
+      <hr>
+      <h5>Trip</h5>
+      <p>
+        <i-bs name="geo-alt" width="20" height="20" class="mr-2" style="padding-right: 0.5vh"></i-bs>
+        {{ ride?.departure?.address }}
+        <i-bs name="arrow-right" width="15" height="15"></i-bs>
+        {{ ride?.destination?.address }}
+      </p>
+      <p>
+        <i-bs name="clock" width="20" height="20" class="mr-2" style="padding-right: 0.5vh"></i-bs>
+        {{ ride?.startTime | date : "EEE d MMM H:mm" }}
+        <i-bs name="arrow-right" width="15" height="15"></i-bs>
+        {{ ride?.endTime | date : "EEE d MMM H:mm" }}
+      </p>
+      <div class="d-flex justify-content-between align-items-center mb-2">
+        <p [ngClass]="{ 'text-success': numberOfReservations < 5, 'text-danger': numberOfReservations === 5 }">
+          <i-bs name="person" width="20" height="20" class="mr-2"></i-bs>
+          {{ numberOfReservations }}
+          <span *ngIf="riders.length > 0" class="ml-2" style="color:#5c5c5c; margin-left: 3px;"> {{ getRiderNames() }}</span>
+        </p>
+      </div>
+
+      <div class="button-div">
+        <div *ngIf="isOwnerAndOnlyReservation()">
+            <button class="btn btn-primary edit" routerLink="edit" style="margin-right: 10px;" [disabled]="isStartTimePassed()">Edit</button>
+            <button class="btn btn-primary delete" style="margin-left: 10px;" (click)="del()" routerlink="/home" [disabled]="isStartTimePassed()">
+                Cancel ride
+            </button>
+        </div>
+        <button *ngIf="!joined()" [disabled]="numberOfReservations >= 5 || isStartTimePassed()" (click)="join()"
+            class="btn btn-primary">Inschrijven</button>
+        <button *ngIf="joined() && !isOwnerAndOnlyReservation()" [disabled]="isStartTimePassed()" (click)="leave()"
+            class="btn btn-primary" routerlink="/home">Uitschrijven</button>
+    </div>
+
+
+    </div>
+  </div>
+</div>

@@ -1,0 +1,32 @@
+/* styles.css or your-component.component.css */
+
+.container {
+    height: 100vh; /* Set the container to the full height of the viewport */
+  }
+  
+  .d-flex {
+    display: flex;
+  }
+  
+  .justify-content-center {
+    justify-content: center;
+  }
+  
+  .align-items-center {
+    align-items: center;
+  }
+  
+  .col-md-6 {
+    margin-top: 20px; 
+  }
+
+  form{
+    width: 35%;
+    padding-top: 3%;
+  }
+  
+  button{
+    background-color: #5412c7;
+    color: #ffffff;
+    border-radius: 5px;
+  }

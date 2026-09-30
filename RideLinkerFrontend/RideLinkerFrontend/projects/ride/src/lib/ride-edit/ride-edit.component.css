@@ -1,0 +1,57 @@
+.container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.card {
+    color: black;
+}
+
+form {
+    width: 75%;
+}
+
+.form-group {
+    margin-top: 15px;
+}
+
+.form-control{
+    border: solid 1px rgb(66, 66, 66);
+}
+
+.form-control:focus {
+    outline: none !important;
+    box-shadow: none;
+}
+
+label {
+    margin-left: 5px;
+}
+
+.div-buttons {
+    text-align: center;
+}
+
+button {
+    background-image: linear-gradient(to top right, rgba(0, 116, 232, 1), rgba(93, 17, 220, 1));
+    color: #ffffff;
+    border-radius: 20px;
+    margin-bottom: 20px;
+    padding-left: 25px;
+    padding-right: 25px;
+    border: transparent;
+}
+
+button:hover {
+    background-image: linear-gradient(to top right, rgb(9, 89, 169), rgb(73, 23, 159));
+    color: #ffffff;
+}
+
+h4 {
+    color: black;
+    margin-top: 20px;
+    margin-left: 5px;
+    font-size: 30px;
+}

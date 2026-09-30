@@ -1,0 +1,39 @@
+name: Angular CI/CD
+
+on:
+  push:
+    branches: main
+  pull_request:
+    branches: main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Use Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18.x'
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Run tests
+      run: npm run test #-- --no-watch --no-progress --browsers=ChromeHeadlessCI
+
+    - name: Build
+      run: npm run build -- --prod --output-path=dist
+
+    # This step should be adjusted based on the service used to deploy the app
+    
+    # - name: Deploy
+    #   if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+    #   run: |
+    #     npm install -g angular-cli-ghpages
+    #     ng deploy --dir=dist --repo=$REPO_URL --branch=gh-pages
+    #   env:
+    #     REPO_URL: ${{ secrets.REPO_URL }}
+    #     ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}

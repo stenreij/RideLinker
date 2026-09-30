@@ -1,0 +1,111 @@
+<!-- edit form -->
+<div class="container">
+  <div class="row">
+    <div class="d-flex justify-content-center align-items-center shadow">
+      <form *ngIf="ride" (ngSubmit)="onSubmit()" #rideForm="ngForm">
+        <h4>Pas Rit Aan</h4>
+        <div class="form-group">
+          <label for="departure">Vertrek locatie:</label>
+          <select id="role" name="role" [(ngModel)]="ride.departure.name" class="form-control" required>
+            <option *ngFor="let location of locations">{{ location.name }}</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="destination">Aankomst locatie:</label>
+          <select id="destination" name="destination" [(ngModel)]="ride.destination.name" class="form-control" required>
+            <option *ngFor="let location of locations">{{ location.name }}</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="startTime">Vertrektijd:</label>
+          <input type="datetime-local" id="startTime" name="startTime" class="form-control" required
+            [(ngModel)]="startTimeFormatted" #startTimeInput="ngModel">
+          <div *ngIf="errorMessageVT" id="vertrektijdError" class="text-danger" style="margin-left: 5px;">
+            {{ errorMessageVT }}
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="endTime">Aankomsttijd:</label>
+          <input type="datetime-local" id="endTime" name="endTime" class="form-control" required 
+          [(ngModel)]="endTimeFormatted" #endTimeInput="ngModel">
+          <div *ngIf="errorMessageAT" id="aankomstTijdError" class="text-danger" style="margin-left: 5px;">
+            {{ errorMessageAT }}
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="car">Auto:</label>
+          <select id="car" name="car" [(ngModel)]="car" class="form-control" required>
+            <ng-container *ngFor="let car of cars">
+              <option *ngIf="car.location.name === ride.car.location.name || !ride.car.location.name">
+                {{ car.brand }} {{ car.model }}
+              </option>
+            </ng-container>
+          </select>
+        </div>
+        <div class="div-buttons mt-4">
+          <button class="btn btn-primary delete" routerLink="/trip/{{ride.id}}"
+            style="margin-left: 10px;">Terug</button>
+          <button type="submit" class="btn btn-primary save" id="saveButton" style="margin-left: 10px;">Opslaan</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- create form -->
+  <div class="container">
+    <div class="row">
+      <div class="d-flex justify-content-center align-items-center shadow">
+        <form *ngIf="!ride" (ngSubmit)="onSubmit()" #rideForm="ngForm">
+          <h4>Rit Toevoegen</h4>
+          <div class="form-group">
+            <label for="departure">Vertrek locatie:</label>
+            <select id="role" name="role" [(ngModel)]="departureCity" class="form-control" required>
+              <option>Kies een locatie</option>
+              <option *ngFor="let location of locations">{{ location.name }}</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="destination">Aankomst locatie:</label>
+            <select id="destination" name="destination" [(ngModel)]="destinationCity" class="form-control" required>
+              <option>Kies een locatie</option>
+              <option *ngFor="let location of locations">{{ location.name }}</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="startTime">Vertrektijd:</label>
+            <input type="datetime-local" id="startTime" name="startTime" class="form-control" required
+              [(ngModel)]="startTime" #startTimeInput="ngModel">
+            <div *ngIf="errorMessageVT" id="vertrektijdError" class="text-danger" style="margin-left: 5px;">
+              {{ errorMessageVT }}
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="endTime">Aankomsttijd:</label>
+            <input type="datetime-local" id="endTime" name="endTime" class="form-control" required [(ngModel)]="endTime"
+              #endTimeInput="ngModel">
+            <div *ngIf="errorMessageAT" class="text-danger" style="margin-left: 5px;">
+              {{ errorMessageAT }}
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="car">Auto:</label>
+            <select id="car" name="car" [(ngModel)]="carForm" class="form-control" required>
+              <option>Kies een auto</option>
+              <ng-container *ngFor="let car of cars">
+                <option *ngIf="car.location.name === departureCity || !departureCity">
+                  {{ car.brand }} {{ car.model }}
+                </option>
+              </ng-container>
+            </select>
+          </div>
+
+          <div class="div-buttons mt-4">
+            <button class="btn btn-primary delete" routerLink="/trip" style="margin-right: 10px;">Terug</button>
+            <button type="submit" class="btn btn-primary save saveButton" id="saveButton" style="margin-left: 10px;"
+              [disabled]="!rideForm.valid">Maken</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,30 @@
+<div class="container">
+    <div class="row">
+      <div class="d-flex justify-content-center align-items-center shadow mt-5">
+        <img src="https://www.financieelsysteem.nl/wp-content/uploads/2023/05/CM-logo-1-768x345.png" alt="cm.com">
+        <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+          <div class="form-group">
+            <h1>Registreren Ridelinker</h1>
+            <label for="Name">Email:</label>
+            <input type="text" id="Name" name="Name" [(ngModel)]="Email" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label for="Wachtwoord">Wachtwoord:</label>
+            <input type="password" id="Wachtwoord" name="Wachtwoord" [(ngModel)]="Password" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label for="Wachtwoord">Herhaal wachtwoord:</label>
+            <input type="password" id="Wachtwoord" name="Wachtwoord" [(ngModel)]="RepeatedPassword" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
+              {{ errorMessage }}
+            </div>
+          </div>
+          <br>
+          <button type="submit" class="btn btn-primary save">Login</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  

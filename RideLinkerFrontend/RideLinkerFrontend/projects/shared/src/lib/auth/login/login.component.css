@@ -1,0 +1,58 @@
+/* styles.css or your-component.component.css */
+
+.container {
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.d-flex {
+  display: flex;
+}
+
+.justify-content-center {
+  justify-content: center;
+}
+
+.align-items-center {
+  align-items: center;
+}
+
+.col-md-6 {
+  margin-top: 20px;
+}
+
+form {
+  width: 35%;
+  padding-top: 3%;
+}
+
+.form-group{
+  margin-top: 25px;
+}
+
+button {
+  background-image: linear-gradient(to top right, rgba(0, 116, 232, 1), rgba(93, 17, 220, 1));
+  color: #ffffff;
+  border-radius: 20px;
+  margin-bottom: 20px;
+  padding-left: 25px;
+  padding-right: 25px;
+  border: none;
+}
+
+button:hover {
+  background-image: linear-gradient(to top right, rgb(9, 89, 169), rgb(73, 23, 159));
+  color: #ffffff;
+}
+
+button:disabled{
+  border: none;
+  color: #ffffff;
+  margin-bottom: 20px;
+}
+
+.alert {
+  margin-top: 10px;
+}

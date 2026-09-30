@@ -1,0 +1,157 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+<div class="container container-fluid">
+  <div class="row justify-content-center mt-3 align-items-center">
+    <div class="d-flex justify-content-center">
+      <h1 id="WTG">Waar wil je heen?</h1>
+      <div class="filter-div ">
+        <div class="filter d-flex justify-content-center">
+          <h2 (click)="toggleFilterOptions()" data-toggle="collapse" data-target="#searchField"
+            aria-controls="navbarCenteredExample" aria-expanded="false" aria-label="Toggle navigation"
+            (click)="rotateArrow()">Filter</h2>
+          <button class="button-filter" id="searchExpand" (click)="toggleFilterOptions()" data-toggle="collapse"
+            data-target="#searchField" aria-controls="navbarCenteredExample" aria-expanded="false"
+            aria-label="Toggle navigation" (click)="rotateArrow()">
+            <i-bs name="caret-down-square" width="35" height="25"> </i-bs>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="filterOptions" class="row justify-content-center mt-2"
+    style="max-height: 0; overflow: hidden; transition: max-height 0.5s ease-out;">
+    <div class="col d-flex justify-content-center">
+      <div style="margin-right: 10px;">
+        <input type="date" class="form-control" id="filterDate" [(ngModel)]="currentDate" (change)="applyDateFilter()">
+      </div>
+
+      <div class="custom-dropdown">
+        <a href="#" data-toggle="dropdown" class="dropdown-link" aria-haspopup="true" aria-expanded="false">
+          <span class="icon-file-text-o mr-2"></span>
+          {{ rideForm.get("departure")?.value?.name || "Kies vertrekpunt" }}
+        </a>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <a class="dropdown-item" *ngFor="let location of locations"
+            [class.active]="location === rideForm.get('departure')?.value" (click)="selectDeparture(location)">
+            <span class="icon-html5 mr-3"></span>
+            {{ location.name }}
+          </a>
+        </div>
+      </div>
+
+
+      <div class="custom-dropdown">
+        <a href="#" data-toggle="dropdown" class="dropdown-link" aria-haspopup="true" aria-expanded="false">
+          <span class="icon-file-text-o mr-2"></span>
+          {{ rideForm.get("destination")?.value?.name || "Kies bestemming" }}
+        </a>
+
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <a class="dropdown-item" *ngFor="let location of locations"
+            [class.active]="location === rideForm.get('destination')?.value" (click)="selectDestination(location)">
+            <span class="icon-html5 mr-3"></span>
+            {{ location.name }}
+          </a>
+        </div>
+      </div>
+
+
+      <div style="margin-right: 10px;">
+        <button class="btn btn-secondary reset-filter" (click)="resetFilters()">Filters resetten</button>
+      </div>
+      <div>
+        <button class="btn btn-primary create" [routerLink]="['/trip/new']">
+          <i class="bi bi-plus"></i> Rit aanmaken
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="container container-fluid overflow-auto" id="tripList" style="height: 60vh;">
+    <div class="row">
+      <div *ngIf="trips.length === 0" class="col d-flex flex-column align-items-center mt-5">
+        <h3>Geen resultaten</h3>
+        <div class="mt-2">
+          <button class="btn btn-primary create" [routerLink]="['/trip/new']">Rit aanmaken</button>
+        </div>
+      </div>
+
+      <ng-container *ngFor="let trip of trips">
+        <div class="col-md-4 d-flex justify-content-center" style="font-weight: bolder">
+          <div class="card shadow mb-3" style="width: 25rem">
+            <a [routerLink]="'/trip/' + trip.id" class="card-block stretched-link text-decoration-none navBarColor">
+              <div [ngClass]="{'grayed-out': getNumberOfReservations(trip.id) >= 5}">
+                <img src="{{ trip.car.image }}" class="card-img-top rounded-0" alt="card-image"
+                  [ngClass]="{'grayed-out': getNumberOfReservations(trip.id) >= 5}"
+                  style="object-fit: fill; object-position: center" />
+              </div>
+
+              <div [ngClass]="{'grayed-out': getNumberOfReservations(trip.id) >= 5}" class="card-body card-text">
+                <div class="container container-fluid">
+                  <!-- Departure Row -->
+                  <div class="row">
+                    <div class="col d-flex align-items-start col-5">
+                      <i-bs name="geo-alt" width="20" height="20" class="mr-2" style="padding-right: 0.5vh"></i-bs>
+                      <h6 style="font-size: small">
+                        {{ trip.departure.address }}, {{ trip.departure.name }}
+                      </h6>
+                    </div>
+                    <!-- Arrow icon -->
+                    <div class="col d-flex align-items-start justify-content-center col-2">
+                      <i-bs name="arrow-right" width="20" height="20"></i-bs>
+                    </div>
+                    <!-- Destination Row -->
+                    <div class="col d-flex align-items-start col-5">
+                      <h6 style="font-size: small">
+                        {{ trip.destination.address }},
+                        {{ trip.destination.name }}
+                      </h6>
+                    </div>
+                  </div>
+
+                  <!-- Time Row -->
+                  <div class="row">
+                    <div class="col d-flex align-items-start col-5">
+                      <i-bs name="clock" width="20" height="20" class="mr-2" style="padding-right: 0.5vh"></i-bs>
+                      <h6 style="font-size: small; padding-top: 0.5vh">
+                        {{ trip.startTime | date : "EEE d MMM H:mm" }}
+                      </h6>
+                    </div>
+                    <!-- Arrow icon -->
+                    <div class="col d-flex align-items-start justify-content-center col-2">
+                      <i-bs name="arrow-right" width="20" height="20"></i-bs>
+                    </div>
+                    <!-- End Time Row -->
+                    <div class="col d-flex align-items-start col-5">
+                      <h6 style="font-size: small; padding-top: 0.5vh">
+                        {{ trip.endTime | date : "EEE d MMM H:mm" }}
+                      </h6>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col d-flex align-items-start col-5">
+                      <i-bs name="car-front" width="20" height="20" class="mr-2" style="padding-right: 0.5vh"></i-bs>
+                      <h6 style="font-size: small; padding-top: 0.5vh">{{ trip.car.brand }} {{ trip.car.model }}</h6>
+                    </div>
+                    <div class="col d-flex align-items-start justify-content-center col-2">
+                    </div>
+                    <div class="col d-flex align-items-start col-5" [ngClass]="{ 'text-success': numberOfReservationsPerRide[trip.id] <= 5, 'text-danger': numberOfReservationsPerRide[trip.id] === 5 }">
+                      <i class="bi bi-people mr-2" width="70" height="70" style="padding-right: 0.5vh; padding-top: 0.2vh;"></i>
+                      <h6 style="padding-top: 0.5vh">
+                          {{ numberOfReservationsPerRide[trip.id] || 0 }}
+                      </h6>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</div>

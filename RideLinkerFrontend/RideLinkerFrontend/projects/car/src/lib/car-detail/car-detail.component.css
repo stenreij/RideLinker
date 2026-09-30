@@ -1,0 +1,15 @@
+.container {
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.d-flex{
+    margin-left: 10px;
+}
+
+.col-md-6{
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+}

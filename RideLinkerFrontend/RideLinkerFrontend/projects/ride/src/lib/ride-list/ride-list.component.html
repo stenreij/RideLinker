@@ -1,0 +1,98 @@
+<div class="container container-fluid">
+  <div class="row justify-content-center mt-3 align-items-center">
+    <div class="d-flex justify-content-center">
+      <h1>Mijn ritten</h1>
+      <div class="filter-div ">
+        <div class="filter d-flex justify-content-center">
+        
+          <h2 (click)="toggleFilterOptions()" data-toggle="collapse" data-target="#searchField"
+            aria-controls="navbarCenteredExample" aria-expanded="false" aria-label="Toggle navigation"
+            (click)="rotateArrow()">Filter</h2>
+          <button class="button-filter" id="searchExpand" (click)="toggleFilterOptions()" data-toggle="collapse"
+            data-target="#searchField" aria-controls="navbarCenteredExample" aria-expanded="false"
+            aria-label="Toggle navigation" (click)="rotateArrow()">
+            <i-bs name="caret-down-square" width="35" height="25"> </i-bs>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="filterOptions" class="row justify-content-center mt-2"
+    style="max-height: 0; overflow: hidden; transition: max-height 0.5s ease-out;">
+    <div class="col d-flex justify-content-center">
+      <div style="margin-right: 25px;">
+        <input type="date" class="form-control" id="filterDate" [(ngModel)]="currentDate" (change)="applyDateFilter()">
+      </div>
+      <div style="margin-right: 10px;">
+        <button class="btn btn-secondary reset-filter" (click)="resetFilters()">Filters resetten</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="container container-fluid overflow-auto" style="height: 60vh;">
+    <div class="row">
+      <ng-container *ngIf="trips.length > 0; else noResults">
+        <div class="col-md-4 d-flex justify-content-center" *ngFor="let trip of trips">
+          <div class="card shadow mb-3">
+            <a [routerLink]="'/trip/' + trip.id" class="card-block stretched-link text-decoration-none navBarColor">
+              <img src="{{ trip.car.image }}" class="card-img-top rounded-0" alt="card-image"
+                style="object-fit: fill; object-position: center" />
+              <div class="card-body card-text">
+                <div class="container container-fluid">
+                  <div class="row">
+                    <div class="col d-flex align-items-start col-5">
+                      <i-bs name="geo-alt" width="20" height="20" class="mr-2" style="padding-right: 0.5vh"></i-bs>
+                      <h6 style="font-size: small">
+                        {{ trip.departure.address }}, {{ trip.departure.name }}
+                      </h6>
+                    </div>
+                    <div class="col d-flex align-items-start justify-content-center col-2">
+                      <i-bs name="arrow-right" width="20" height="20"></i-bs>
+                    </div>
+                    <div class="col d-flex align-items-start col-5">
+                      <h6 style="font-size: small">
+                        {{ trip.destination.address }},
+                        {{ trip.destination.name }}
+                      </h6>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col d-flex align-items-start col-5">
+                      <i-bs name="clock" width="20" height="20" class="mr-2" style="padding-right: 0.5vh"></i-bs>
+                      <h6 style="font-size: small; padding-top: 0.5vh">
+                        {{ trip.startTime | date : "EEE d MMM H:mm" }}
+                      </h6>
+                    </div>
+                    <div class="col d-flex align-items-start justify-content-center col-2">
+                      <i-bs name="arrow-right" width="20" height="20"></i-bs>
+                    </div>
+                    <div class="col d-flex align-items-start col-5">
+                      <h6 style="font-size: small; padding-top: 0.5vh">
+                        {{ trip.endTime | date : "EEE d MMM H:mm" }}
+                      </h6>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col d-flex justify-content-center">
+                      <i-bs name="car-front" width="20" height="20" class="mr-2" style="padding-right: 0.5vh"></i-bs>
+                      <h6 style="font-size: small; padding-top: 0.5vh">
+                        {{ trip.car.brand }} {{ trip.car.model }}
+                      </h6>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+      </ng-container>
+      <ng-template #noResults>
+        <div class="col d-flex justify-content-center mt-5">
+          <h3>Geen resultaten</h3>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</div>
